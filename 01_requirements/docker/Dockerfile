@@ -1,3 +1,3 @@
 FROM alpine:latest
 
-COPY ./sample.txt /sample.txt
+RUN apk add --no-cache curl
