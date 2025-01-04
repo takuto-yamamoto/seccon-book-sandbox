@@ -1,0 +1,8 @@
+# python
+.mypy_cache
+
+# js
+node_modules
+
+# code
+.vscode
