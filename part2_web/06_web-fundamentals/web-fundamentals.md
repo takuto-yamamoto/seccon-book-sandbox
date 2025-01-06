@@ -114,3 +114,47 @@ http {
 - データベースとの連携方法
   - Web アプリケーションと DB の接続
   - SQL や ORM を用いた DB 上のデータの取得および更新
+
+### データベース
+
+#### SELECT
+
+```sql
+SELECT [column1, column2, ...] FROM [table_name]
+WHERE [condition] ORDER BY [column_name] LIMIT [num];
+```
+
+- condition 句で利用可能な条件式
+  - column の値が A ではない(標準 SQL): column <> A
+  - column の値が A ではない(MySQL): column != A
+  - column の値が 1, 2, ...に含まれる: column IN (1, 2, ...)
+- その他
+  - JOIN: 内部結合/外部結合/交差結合
+    - 内部結合: 共通する項目のみ結合
+    - 外部結合: 片方に存在する項目のみ結合
+    - 交差結合: 2 つのテーブルに存在する項目の全てを結合
+  - UNION: 和結合
+    - 和結合: 行方向の結合(UNION ALL で重複あり)
+    - カラム数は同一である必要がある
+
+#### CASE
+
+```sql
+SELECT CASE WHEN [condition] THEN [value1]
+ELSE [value2] END...
+```
+
+#### サブクエリ
+
+```sql
+SELECT ... FROM ... WHERE external_id IN (SELECT id FROM ...);
+```
+
+#### 関数
+
+- COUNT, SUM, AVG, MAX, MIN, ...
+- GROUP_CONCAT: 指定したカラムの値を指定したセパレータで結合する
+- ASCII: 指定した文字の ASCII コードを返す
+- SUBSTR: 指定した文字列の一部を切り出す
+- TIMESTAMP: 文字列日付/時間を DATETIME/DATE に変換する
+- SLEEP
