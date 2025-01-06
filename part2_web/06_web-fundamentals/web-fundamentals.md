@@ -115,9 +115,9 @@ http {
   - Web アプリケーションと DB の接続
   - SQL や ORM を用いた DB 上のデータの取得および更新
 
-### データベース
+## データベース
 
-#### SELECT
+### SELECT
 
 ```sql
 SELECT [column1, column2, ...] FROM [table_name]
@@ -137,20 +137,20 @@ WHERE [condition] ORDER BY [column_name] LIMIT [num];
     - 和結合: 行方向の結合(UNION ALL で重複あり)
     - カラム数は同一である必要がある
 
-#### CASE
+### CASE
 
 ```sql
 SELECT CASE WHEN [condition] THEN [value1]
 ELSE [value2] END...
 ```
 
-#### サブクエリ
+### サブクエリ
 
 ```sql
 SELECT ... FROM ... WHERE external_id IN (SELECT id FROM ...);
 ```
 
-#### 関数
+### 関数
 
 - COUNT, SUM, AVG, MAX, MIN, ...
 - GROUP_CONCAT: 指定したカラムの値を指定したセパレータで結合する
@@ -158,3 +158,20 @@ SELECT ... FROM ... WHERE external_id IN (SELECT id FROM ...);
 - SUBSTR: 指定した文字列の一部を切り出す
 - TIMESTAMP: 文字列日付/時間を DATETIME/DATE に変換する
 - SLEEP
+
+## Web ブラウザのセキュリティ
+
+- 機密情報を含んだコンテンツを JS プログラムから読み込むことができる場合に問題
+- SameOrigin ポリシー
+  - SameOrigin: スキーマ/ドメイン/ポート番号が同じ URI
+  - SameOrigin であれば読み込みを許可
+- CORS による SOP の緩和
+  - CrossOrigin リクエストについてはリクエストヘッダに Origin ヘッダを付与
+  - サーバは Access-Control-Allow-Origin ヘッダに許可する Origin を記載してレスポンス
+  - ブラウザは ACAO ヘッダに Origin が含まれている場合にコンテンツの読み取りを許可する
+  - プリフライトで CORS を満たしているかをチェックする
+    - Access-Control-Allow-Methods
+    - Access-Control-Allow-Headers
+    - Access-Control-Expose-Headers: JS プログラムに Expose するヘッダ
+    - Access-Control-Max-Age: プリフライトのレスポンスキャッシュ時間
+    - Access-Control-Allow-Credentials: 本来のリクエストに資格情報を載せてもいいか
