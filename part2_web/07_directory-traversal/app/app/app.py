@@ -4,7 +4,7 @@ import os
 from flask import Flask, redirect, render_template, request
 
 app = Flask(__name__)
-MEMO_DIR = "/tmp/files"
+MEMO_DIR = "/tmp/files/"
 
 
 @app.route("/", methods=["GET"])
@@ -52,14 +52,15 @@ def route_memo():
         memo_title = binascii.unhexlify(key.split(".")[0]).decode()
     except Exception:
         memo_title = ""
-        memo_body = open(filepath, "r").read()
-        return render_template("memo.html", title=memo_title, body=memo_body)
+
+    memo_body = open(filepath, "r").read()
+    return render_template("memo.html", title=memo_title, body=memo_body)
 
 
 def init():
     app.config["FLAG"] = os.environ.get("FLAG")
     if not os.path.exists(MEMO_DIR):
-        os.mkdir(MEMO_DIR)
+        os.makedirs(MEMO_DIR)
 
 
 init()
