@@ -1,7 +1,4 @@
-version: '3.7'
-
 services:
-
   db:
     image: mysql:8.0
     restart: always
@@ -21,9 +18,9 @@ services:
     networks:
       - app
     depends_on:
-        - db
+      - db
     ports:
-        - 5000:5000
+      - 8888:5000
 
   web2:
     build: ./web2
@@ -31,9 +28,9 @@ services:
     networks:
       - app
     depends_on:
-        - db
+      - db
     ports:
-        - 5001:5000
+      - 5001:5000
 
   web3:
     build: ./web3
@@ -41,9 +38,9 @@ services:
     networks:
       - app
     depends_on:
-        - db
+      - db
     ports:
-        - 5002:5000
+      - 5002:5000
 
   web4:
     build: ./web4
@@ -51,9 +48,9 @@ services:
     networks:
       - app
     depends_on:
-        - db
+      - db
     ports:
-        - 5003:5000
+      - 5003:5000
 
   web5:
     build: ./web5
@@ -61,11 +58,9 @@ services:
     networks:
       - app
     depends_on:
-        - db
+      - db
     ports:
-        - 5004:5000
-
+      - 5004:5000
 
 networks:
   app:
-
