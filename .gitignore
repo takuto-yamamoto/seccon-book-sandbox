@@ -1,5 +1,6 @@
 # python
 .mypy_cache
+.tool-versions
 
 # js
 node_modules
