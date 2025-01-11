@@ -1,16 +1,7 @@
 #! python3
 
-from flask import (
-    jsonify,
-    Flask,
-    request,
-    redirect,
-    render_template,
-    render_template_string
-)
-
-import json
 import pymysql
+from flask import Flask, redirect, render_template, render_template_string, request
 
 app = Flask(__name__)
 
@@ -19,18 +10,13 @@ app.config["MYSQL_DATABASE_DB"] = "db"
 app.config["MYSQL_DATABASE_USER"] = "user"
 app.config["MYSQL_DATABASE_PASSWORD"] = "password"
 
-_db = pymysql.connect(
-    host="db",
-    db="db",
-    user="user",
-    password="password"
-)
+_db = pymysql.connect(host="db", db="db", user="user", password="password")
 
 
 def get_db():
     _db.ping(reconnect=True)
     return _db
-        
+
 
 @app.route("/")
 def route_index():
@@ -47,23 +33,23 @@ def route_index():
 
 @app.route("/view/<tid>")
 def route_view(tid: int):
-    
+
     sql = "select template from templates where id=%s limit 1"
     db = get_db()
 
     cur = db.cursor()
     cur.execute(sql, (tid,))
     data = cur.fetchone()
-    if data == None:
+    if data is None:
         return "no template was found"
 
     template = data[0]
     return render_template_string(template)
-    
+
 
 @app.route("/add", methods=["GET"])
 def route_add_index():
-    
+
     return render_template("add.html")
 
 
@@ -77,22 +63,20 @@ def route_add_do():
     name = request.form.get("name")
     template = request.form.get("template")
 
-    if name == "" or name == None or template == "" or template == None:
+    if name == "" or name is None or template == "" or template is None:
         return "name and template can not be empty."
 
     cur = db.cursor()
     cur.execute(sql_check, (name,))
 
     data = cur.fetchone()
-    if data != None:
+    if data is not None:
         return "name is duplicated."
-    
+
     cur.execute(sql_insert, (name, template))
     db.commit()
 
-    return redirect('/')
+    return redirect("/")
 
 
 app.run(host="0.0.0.0", debug=False)
-
-
