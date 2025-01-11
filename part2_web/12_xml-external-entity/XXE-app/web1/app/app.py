@@ -1,13 +1,6 @@
 #! python3
 
-from flask import (
-    Flask,
-    request,
-    redirect,
-    render_template,
-    session
-)
-
+from flask import Flask, redirect, render_template, request, session
 from lxml import etree
 
 app = Flask(__name__)
@@ -31,18 +24,18 @@ def route_login_do():
 
     try:
         doc = etree.fromstring(xml, parser=parser)
-    except:
+    except Exception:
         return "Invalid Request", 400, {"Content-Type": "text/plain"}
 
     try:
         username = doc.find("username").text
         password = doc.find("password").text
-    except:
+    except Exception:
         return "username and password are required", 400, {"Content-Type": "text/plain"}
-        
-    if auth(username, password) == True:
-        session['logined'] = True
-        return redirect('/flag')
+
+    if auth(username, password) is True:
+        session["logined"] = True
+        return redirect("/flag")
 
     resp = etree.Element("result")
     resp_username = etree.Element("username")
@@ -53,22 +46,26 @@ def route_login_do():
     resp.append(resp_username)
     resp.append(resp_success)
 
-    return etree.tostring(resp, pretty_print=True), 200, {"Content-Type": "application/xml"}
+    return (
+        etree.tostring(resp, pretty_print=True),
+        200,
+        {"Content-Type": "application/xml"},
+    )
 
 
 @app.route("/flag", methods=["GET"])
 def route_flag():
-    if "logined" in session and session["logined"] == True:
+    if "logined" in session and session["logined"] is True:
         return FLAG
 
     return "Please login :D", 403
 
-    
+
 def init():
     global FLAG
 
     parser = etree.XMLParser(no_network=False)
-    doc = etree.parse('/opt/app/config.xml', parser=parser)
+    doc = etree.parse("/opt/app/config.xml", parser=parser)
     FLAG = doc.find("flag").text
 
 
