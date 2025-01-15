@@ -54,6 +54,12 @@
   - `bkcrack -L encrypted.zip`で zip の中身メタデータチェック
 - file
   - ファイルのメタデータ確認
+- SageMath
+  - Python 各種数学ライブラリを一括で扱える+一部独自機能
+  - CTF 当日使えないかも
+- hashcat
+  - hash の総当たり
+  - https://github.com/hashcat/hashcat
 
 ## Forensics
 
