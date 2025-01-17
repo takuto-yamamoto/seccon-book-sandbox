@@ -60,6 +60,14 @@
 - hashcat
   - hash の総当たり
   - https://github.com/hashcat/hashcat
+- python 組み込み関数
+  - pow
+    - pow(a, -1, n) で ax mod n = 1 となる x(モジュラ逆元)を計算する
+    - pow(a, e, n)で a^e mod n の解を計算数 r
+  - hashlib(ハッシュ関数)
+  - Crypto.Cipher(暗号化)
+- RSA 暗号系
+  - http://www.factordb.com/index.php で素因数分解
 
 ## Forensics
 
