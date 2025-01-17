@@ -52,8 +52,6 @@
   - zip ファイルの既知平文攻撃
   - bkcrack でうまくいかない場合に pkcrack する
   - `bkcrack -L encrypted.zip`で zip の中身メタデータチェック
-- file
-  - ファイルのメタデータ確認
 - SageMath
   - Python 各種数学ライブラリを一括で扱える+一部独自機能
   - CTF 当日使えないかも
@@ -69,7 +67,42 @@
 - RSA 暗号系
   - http://www.factordb.com/index.php で素因数分解
 
+## Reversing
+
+- dnSpy
+  - .NET デバッガ
+- OllyDbg
+  - C/C++デバッガ
+- IDA
+  - 汎用デバッガ
+
 ## Forensics
 
 - wireshark
-  - パケットキャプチャ
+  - パケットキャプチャ解析ツール
+  - HTTP や TCP などでフィルタできる
+- file
+  - ファイルのメタデータやバイナリ情報確認
+- strings
+  - バイナリ中の文字列を調べるコメント
+- sleuth kit
+  - img ファイルの中身を操作するツール
+  - `fls example.img`で構造確認
+  - `icat example.img XX`で指定した inode 番号(エントリ番号)のファイルの内容を出力する
+    - `icat drive.img 36-128-1 > extracted.jpg`
+
+## チェックしておくツール
+
+- John The Ripper
+- bz
+- stirling
+- process monitor
+- process explorer
+- process hacker
+- autoruns
+- regshot
+- steghide
+- sonic visualizer
+- image-exiftool
+- ghidra
+- Aperi'Solve
